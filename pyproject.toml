@@ -1,0 +1,16 @@
+[tool.pdm]
+
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "Mango-Discord-Project", email = "evan940415@gmail.com"},
+]
+dependencies = [
+    "py-cord>=2.3.2",
+    "rich>=13.0.0",
+    "pretty-errors>=1.2.25",
+]
+requires-python = ">=3.11"
+license = {text = "AGPL-3.0"}

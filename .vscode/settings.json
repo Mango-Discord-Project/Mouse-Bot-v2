@@ -1,0 +1,19 @@
+{
+  "editor.tabSize": 2,
+  "[python]": {
+    "editor.tabSize": 4
+  },
+  "[bat]": {
+    "editor.tabSize": 4
+  },
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}\\__pypackages__\\3.11\\lib"
+  ],
+  "python.autoComplete.extraPaths": [
+    "${workspaceFolder}\\__pypackages__\\3.11\\lib"
+  ],
+  "material-icon-theme.folders.associations": {
+    "__pypackages__": "Packages"
+  },
+  "editor.fontFamily": "Sarasa Term Slab CL"
+}

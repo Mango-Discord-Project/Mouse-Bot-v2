@@ -1,0 +1,11 @@
+@ECHO OFF
+
+SET FILENAME = %1
+SHIFT
+
+IF "%FILENAME%" == "" (
+    SET FILENAME = "main\main.py"
+)
+SET FILEPATH = ".\src\%FILENAME%"
+ECHO "%FILEPATH%"
+::py -3.11 "%FILEPATH%"
