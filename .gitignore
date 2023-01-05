@@ -2,6 +2,3 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
-# PDM
-__pypackages__/
