@@ -1,11 +1,7 @@
 @ECHO OFF
+GOTO MAINLOOP
 
-SET FILENAME = %1
-SHIFT
 
-IF "%FILENAME%" == "" (
-    SET FILENAME = "main\main.py"
-)
-SET FILEPATH = ".\src\%FILENAME%"
-ECHO "%FILEPATH%"
-::py -3.11 "%FILEPATH%"
+:MAINLOOP
+pdm run py -3.11 ./src/main/main.py
+GOTO MAINLOOP

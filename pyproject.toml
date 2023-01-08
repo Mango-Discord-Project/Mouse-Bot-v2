@@ -11,6 +11,7 @@ dependencies = [
     "py-cord>=2.3.2",
     "rich>=13.0.0",
     "pretty-errors>=1.2.25",
+    "python-dotenv>=0.21.0",
 ]
 requires-python = ">=3.11"
 license = {text = "AGPL-3.0"}
