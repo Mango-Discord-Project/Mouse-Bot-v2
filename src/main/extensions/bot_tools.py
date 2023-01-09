@@ -13,18 +13,18 @@ class BotToolsCog(core.CogBase):
     
     BotToolsSlashCommandGroup = SlashCommandGroup('bot_tools', **config_mixin.get_setting())
     
-    @BotToolsSlashCommandGroup.command()
+    @BotToolsSlashCommandGroup.command(**config_mixin.get_setting())
     async def extension(self, ctx: ApplicationContext,
-                  name: Option(str, 
-                               choices = [i for i in listdir(path.join(*(bot_config['path']['base'] + bot_config['path']['extensions']))) if i.endswith('.py')],
-                               required = True),
-                  action: Option(str, 
-                                 choices = ['load', 'reload', 'unload'], 
-                                 default = 'reload')):
+                        name: Option(str, 
+                                     choices = [i for i in listdir(path.join(*(bot_config['path']['base'] + bot_config['path']['extensions']))) if i.endswith('.py')],
+                                     required = True),
+                        action: Option(str, 
+                                       choices = ['load', 'reload', 'unload'], 
+                                       default = 'reload')):
         if ctx.author.id not in self.bot.config['ids']['owner']:
             await ctx.respond('You don\'t have enough permission to execute this command.', ephemeral=True)
             return
-        await getattr(self.bot, f'{action}_extension')(f'extensions.{name.removesuffix(".py")}')
+        getattr(self.bot, f'{action}_extension')(f'extensions.{name.removesuffix(".py")}')
         await ctx.respond(f'{action.title()} extension "{name}" success', ephemeral=True)
 
 def setup(bot: Bot):

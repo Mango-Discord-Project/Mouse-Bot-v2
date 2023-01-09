@@ -8,10 +8,11 @@ class TestCog(core.CogBase):
     
     TestSlashCommandGroup = SlashCommandGroup('test', **config_mixin.get_setting())
     
-    @TestSlashCommandGroup.command()
-    async def hi(self, ctx: ApplicationContext, name: str = None):
-        name = name or ctx.author
-        await ctx.respond(f'Hi, {name}')
+    @TestSlashCommandGroup.command(**config_mixin.get_setting())
+    async def test_command(self, ctx: ApplicationContext):
+        await ctx.respond(f'test', ephemeral=True)
+        msg = await ctx.send('test')
+        await msg.add_reaction(emoji='🇦')
 
 def setup(bot: Bot):
     bot.add_cog(TestCog(bot))

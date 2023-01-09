@@ -8,6 +8,7 @@ from discord import (
 from rich import console as _rich_console
 
 from packages.namespace_pack import *
+from packages import config_mixin
 
 class Bot(_Bot):
     def __init__(self):
@@ -39,13 +40,16 @@ class Bot(_Bot):
     async def on_ready(self):
         self.log('Bot is ready')
     
+    async def on_application_command(self, ctx: ApplicationContext):
+        return self.log(f'commands.used: {ctx.author} use {ctx.command.name} from {ctx.cog.qualified_name}')
+    
     def add_command(self):
-        @self.slash_command()
+        @self.slash_command(**config_mixin.get_setting())
         async def reload_bot_tools(ctx: ApplicationContext):
             if ctx.author.id not in self.config['ids']['owner']:
                 await ctx.respond('You don\'t have enough permission to execute this command.', ephemeral=True)
                 return
-            await self.reload_extension('extensions.bot_tools')
+            self.reload_extension('extensions.bot_tools')
 
 if __name__ == '__main__':
     bot = Bot()
