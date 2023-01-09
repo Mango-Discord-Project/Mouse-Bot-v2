@@ -1,7 +1,8 @@
 import json
+import tomllib
 from os import listdir, path
 
-__all__ = ['get_setting']
+__all__ = ['get_setting', 'get_bot_config']
 
 base_path = ['.', 'src', 'main']
 
@@ -28,3 +29,7 @@ for filename in listdir(path.join(*_lang_base_path)):
 
 def get_setting(key: str = 'command.base') -> dict:
     return command_setting.get(key, {}) | lang_premix.get(key, {})
+
+def get_bot_config():
+    with open(path.join('.', 'src', 'main', 'config', 'bot.toml'), 'rb') as file:
+        return tomllib.load(file)
