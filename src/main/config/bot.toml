@@ -1,6 +1,6 @@
 [path]
 base = ['.', 'src', 'main']
-extensions = ['extension']
+extensions = ['extensions']
 
 [ids]
   owner = [467532880625664000]
