@@ -20,6 +20,7 @@ class Bot(_Bot):
         with open(path.join(*('.', 'src', 'main', 'config', 'bot.toml')), 'rb') as file:
             self.config = tomllib.load(file)
         
+        self.add_command()
         self.load_extensions(*self.get_extension_list())
     
     def log(self, message: str) -> str:
@@ -37,6 +38,14 @@ class Bot(_Bot):
     
     async def on_ready(self):
         self.log('Bot is ready')
+    
+    def add_command(self):
+        @self.slash_command()
+        async def reload_bot_tools(ctx: ApplicationContext):
+            if ctx.author.id not in self.config['ids']['owner']:
+                await ctx.respond('You don\'t have enough permission to execute this command.', ephemeral=True)
+                return
+            await self.reload_extension('extensions.bot_tools')
 
 if __name__ == '__main__':
     bot = Bot()
