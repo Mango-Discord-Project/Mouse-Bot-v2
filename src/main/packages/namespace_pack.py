@@ -1,2 +1,2 @@
 from os import path
-from discord import Bot, ApplicationContext, SlashCommandGroup, Option
+from discord import Bot, ApplicationContext, SlashCommandGroup
