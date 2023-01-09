@@ -1,7 +1,6 @@
 @ECHO OFF
-GOTO MAINLOOP
+:: GOTO MAINLOOP
 
-
-:MAINLOOP
+:: :MAINLOOP
 pdm run py -3.11 ./src/main/main.py
-GOTO MAINLOOP
+:: GOTO MAINLOOP
