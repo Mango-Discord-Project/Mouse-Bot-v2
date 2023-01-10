@@ -1,6 +1,6 @@
+from packages import core, config_mixin
 from packages.namespace_pack import *
-from packages import core
-from packages import config_mixin
+
 
 class TempCog(core.CogBase):
     def __init__(self, bot: Bot) -> None:

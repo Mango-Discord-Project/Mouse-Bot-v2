@@ -1,9 +1,3 @@
 [path]
 base = ['.', 'src', 'main']
 extensions = ['extensions']
-
-[ids]
-  owner = [467532880625664000]
-  [ids.test]
-    user = [467532880625664000]
-    guild = [518387456488505374, 961237448552218675]

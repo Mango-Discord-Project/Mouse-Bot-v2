@@ -21,7 +21,7 @@ class BotToolsCog(core.CogBase):
                         action: Option(str, 
                                        choices = ['load', 'reload', 'unload'], 
                                        default = 'reload')):
-        if ctx.author.id not in self.bot.config['ids']['owner']:
+        if ctx.author.id not in self.bot.owner_ids:
             await ctx.respond('You don\'t have enough permission to execute this command.', ephemeral=True)
             return
         getattr(self.bot, f'{action}_extension')(f'extensions.{name.removesuffix(".py")}')
