@@ -1,17 +1,20 @@
 from string import ascii_lowercase
+from re import match
 
-from discord import Option
+from discord import Option, commands
 
-from packages import core, config_mixin
+from packages import config_mixin, core
 from packages.embed_tools import generate_embed
 from packages.namespace_pack import *
 
 
-class UtilityToolsCog(core.CogBase):
+class ToolsCog(core.CogBase):
     def __init__(self, bot: Bot) -> None:
         super().__init__(bot)
     
-    UtilityToolsSlashCommandGroup = SlashCommandGroup('utility_tools', **config_mixin.get_setting())
+    UtilityToolsSlashCommandGroup = SlashCommandGroup('utility_tools', **config_mixin.get_setting('command.all.base'))
+    PixivToolsSlashCommandGroup = SlashCommandGroup('pixiv_tools', **config_mixin.get_setting('command.all.base'))
+    
     
     @UtilityToolsSlashCommandGroup.command(**config_mixin.get_setting())
     async def yn_poll(self, ctx: ApplicationContext, question: str):
@@ -43,6 +46,24 @@ class UtilityToolsCog(core.CogBase):
         send_message = await ctx.send(embed=embed)
         for option_emoji in option_emojis:
             await send_message.add_reaction(emoji=option_emoji[0])
+    
+    @PixivToolsSlashCommandGroup.command()
+    async def get_image(self, ctx: ApplicationContext, url: str):
+        matched = match(r'https://www\.pixiv\.net/artworks/(\d+)(?:/.?)?', url)
+        if matched is None:
+            return await ctx.respond('URL format error', ephemeral=True)
+        await ctx.respond('Match Success, image sending', ephemeral=True)
+        pixiv_id = matched.group(1)
+        proxy_url = f'https://pixiv.cat/{pixiv_id}.png'
+        embed = generate_embed(title = '📲 Pixiv Get Image',
+                               description = f'Pixiv ID: {pixiv_id}\nProxy URL: {proxy_url}',
+                               author = ctx.author)
+        embed.set_image(url=proxy_url)
+        await ctx.send(embed=embed)
+    
+    @commands.slash_command(**config_mixin.get_setting('command.all.base'))
+    async def help(self, ctx: ApplicationContext):
+        ...
 
 def setup(bot: Bot):
-    bot.add_cog(UtilityToolsCog(bot))
+    bot.add_cog(ToolsCog(bot))

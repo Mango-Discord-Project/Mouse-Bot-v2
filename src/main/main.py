@@ -3,8 +3,9 @@ from os import path, listdir
 
 from dotenv import dotenv_values
 from discord import (
-    Intents,
+    Intents, DiscordException,
     Bot as _Bot)
+from discord.ext.commands import is_owner
 from rich import console as _rich_console
 
 from packages import config_mixin
@@ -43,10 +44,18 @@ class Bot(_Bot):
         self.log('Bot is ready')
     
     async def on_application_command(self, ctx: ApplicationContext):
-        return self.log(f'commands.used: {ctx.author} use {ctx.command.name} from {ctx.cog.qualified_name} in {ctx.guild.name}.{ctx.channel.name}')
+        self.log(f'event.application_commands - {ctx.author} try to use {ctx.command.name} from {ctx.cog.qualified_name} in {ctx.guild.name}.{ctx.channel.name}')
+    
+    async def on_application_command_completion(self, ctx: ApplicationContext) -> None:
+        self.log(f'event.application_commands - {ctx.author} success use {ctx.command.name} from {ctx.cog.qualified_name} in {ctx.guild.name}.{ctx.channel.name}')
+    
+    async def on_application_command_error(self, ctx: ApplicationContext, exc: DiscordException) -> None:
+        self.log(f'event.application_commands - {ctx.author} failed to use {ctx.command.name} from {ctx.cog.qualified_name} in {ctx.guild.name}.{ctx.channel.name}')
+        raise exc
     
     def add_command(self):
         @self.slash_command(**config_mixin.get_setting())
+        @is_owner()
         async def reload_bot_tools(ctx: ApplicationContext):
             if ctx.author.id not in self.owner_ids:
                 await ctx.respond('You don\'t have enough permission to execute this command.', ephemeral=True)

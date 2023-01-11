@@ -1,6 +1,7 @@
 from os import listdir, path
 
 from discord import Option
+from discord.ext.commands import is_owner
 
 from packages.namespace_pack import *
 from packages import core, config_mixin
@@ -14,6 +15,7 @@ class BotToolsCog(core.CogBase):
     BotToolsSlashCommandGroup = SlashCommandGroup('bot_tools', **config_mixin.get_setting())
     
     @BotToolsSlashCommandGroup.command(**config_mixin.get_setting())
+    @is_owner()
     async def extension(self, ctx: ApplicationContext,
                         name: Option(str, 
                                      choices = [i for i in listdir(path.join(*(bot_config['path']['base'] + bot_config['path']['extensions']))) if i.endswith('.py')],
