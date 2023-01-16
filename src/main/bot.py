@@ -24,7 +24,7 @@ class Bot(_Bot):
             self.config = tomllib.load(file)
         
         self.add_command()
-        self.load_extensions(*self.get_extension_list())
+        self.load_extensions(*self.get_extensions())
     
     def log(self, message: str) -> str:
         format_message = f'Main > {message}'
@@ -32,12 +32,24 @@ class Bot(_Bot):
         return format_message
     
     def generate_path(self, sub_path: list[str]) -> str:
-        return path.join(*(self.config['path']['base'] + sub_path))
+        return path.join(*self.config['path']['base'], *sub_path)
     
-    def get_extension_list(self) -> list[str]:
-        filter_func = lambda filename: filename.endswith('.py') and filename != 'template.py'
-        map_func = lambda filename: f"extensions.{filename.removesuffix('.py')}"
-        return map(map_func, filter(filter_func, listdir(path.join(self.generate_path(self.config['path']['extensions'])))))
+    def get_extensions(self) -> list[str]:
+        return [
+            filename for _filename in listdir(
+                path.join(
+                    self.generate_path(
+                        self.config['path']['extensions']
+                        )
+                    )
+                )
+            if _filename.endswith('.py') and (
+                filename:=_filename.removesuffix('.py')
+                ) not in (
+                    'template', 
+                    'test'
+                )
+            ]
     
     
     async def on_ready(self):

@@ -1,6 +1,8 @@
 from datetime import datetime, timezone
 
-from discord import Embed, User, Member, SlashCommand
+from discord import Embed, User, Member
+
+__all__ = ['generate_embed']
 
 def generate_embed(title: str, description: str, author: User | Member) -> Embed:
     embed = Embed(title = title,

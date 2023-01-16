@@ -11,6 +11,7 @@ with open(path.join(*[*base_path, 'config', 'commands', 'settings.json'])) as fi
 
 lang_premix = {}
 _lang_base_path = [*base_path, 'config', 'lang']
+
 for filename in listdir(path.join(*_lang_base_path)):
     lang = filename.removesuffix('.json')
     with open(path.join(*[*_lang_base_path, filename]), encoding='utf8') as file:
@@ -26,6 +27,7 @@ for filename in listdir(path.join(*_lang_base_path)):
         # lang_premix[key][type] = lang_premix.get(type, {})
         
         lang_premix[key][type] = v
+
 
 def get_setting(key: str = 'command.base') -> dict:
     return command_setting.get(key, {}) | lang_premix.get(key, {})
